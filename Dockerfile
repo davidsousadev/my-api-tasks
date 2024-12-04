@@ -6,8 +6,6 @@ WORKDIR /home/app
 COPY ./requirements.txt .
 
 # 3. Instalar as Dependencias
-RUN apt-get update && apt-get install -y build-essential
-RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # 4. Copy arquivos
