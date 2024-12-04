@@ -1,4 +1,8 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI
+from sqlmodel import SQLModel
+from .atividades_controller import router as atividades_router
+from .registros_controller import router as registros_router
+from .database import get_engine
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
@@ -19,25 +23,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(atividades_router, 
+                   prefix='/atividades')
+app.include_router(registros_router, 
+                   prefix='/registros')
+
+# Criar DB
+SQLModel.metadata.create_all(get_engine())
+
 # URL do banco de dados
 DATABASE_URL = config('DATABASE_URL')
 
-# Função para conexão com o banco de dados
-def get_db_connection():
-    try:
-        return psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao conectar ao banco de dados: {e}")
 
-# Modelos Pydantic
-class Atividade(BaseModel):
-    titulo: str
-    descricao: Optional[str] = None
 
-class Registro(BaseModel):
-    tempo: int
-    classificacao: int
-    descricao: str
 
 # Função auxiliar para atualizar métricas da atividade
 def atualizar_metricas_atividade(atividade_id: int):
