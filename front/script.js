@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:8000"; // Certifique-se de que esse URL é o da sua API
+const apiUrl = "https://my-api-tasks-1.onrender.com"; // Certifique-se de que esse URL é o da sua API
 
 // Função para mostrar o loader
 function showLoader() {

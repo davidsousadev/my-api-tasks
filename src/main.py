@@ -7,7 +7,6 @@ from .database import get_engine
 
 app = FastAPI()
 
-# Configuração de CORS
 origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
@@ -17,14 +16,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(atividades_router, 
-                   prefix='/atividades',
-                   tags=["Atividades"])
 
-
-app.include_router(registros_router, 
-                   prefix='/registros',
-                   tags=["Registros"])
+app.include_router(atividades_router, prefix='/atividades', tags=["Atividades"])
+app.include_router(registros_router, prefix='/registros', tags=["Registros"])
 
 # Criar DB
 SQLModel.metadata.create_all(get_engine())
+
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])  
