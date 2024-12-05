@@ -1,49 +1,63 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Response
 
 from .database import get_engine
-from .models import Atividade
+from .models import Atividade, PushAtividade
 from sqlmodel import Session, select
 
 router = APIRouter()
 
-@router.get("/atividades/")
+@router.get("", status_code=status.HTTP_200_OK)
 def listar_atividades():
     session = Session(get_engine())
     statement = select(Atividade) 
     atividades = session.exec(statement).all()
     return atividades
 
-"""
-
-
-
-# Endpoints de Atividades
-@router.post("/atividades/", status_code=201)
-def criar_atividade(atividade: Atividade):
-    with get_engine() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO atividades (titulo, descricao) VALUES (%s, %s) RETURNING id, titulo, descricao, tempo_acumulado, media_classificacao",
-                (atividade.titulo, atividade.descricao)
-            )
-            atividade_criada = cursor.fetchone()
-    return atividade_criada
-
-
-
-@router.put("/atividades/{atividade_id}")
-def atualizar_atividade(atividade_id: int, atividade: Atividade):
-    with get_engine() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "UPDATE atividades SET titulo = %s, descricao = %s WHERE id = %s RETURNING id, titulo, descricao, tempo_acumulado, media_classificacao",
-                (atividade.titulo, atividade.descricao, atividade_id)
-            )
-            atividade_atualizada = cursor.fetchone()
+@router.post('', status_code=status.HTTP_201_CREATED)
+def criar_atividade(atividade: PushAtividade):
+    nova_atividade = Atividade(
+        titulo=atividade.titulo,
+        descricao=atividade.descricao,
+    )
     
-    if not atividade_atualizada:
-        raise HTTPException(status_code=404, detail="Atividade não encontrada")
+    with Session(get_engine()) as session:
+        session.add(nova_atividade)
+        session.commit()
+        session.refresh(nova_atividade)
+
+    return nova_atividade
+
+@router.put('/{atividade_id}')
+def alterar_atividade(atividade_id: int, dados: PushAtividade):
+  with Session(get_engine()) as session:
+    sttm = select(Atividade).where(Atividade.id == atividade_id)
+    atividade = session.exec(sttm).one_or_none()
     
-    return atividade_atualizada
-    
-"""
+    if atividade:
+      atividade.titulo=dados.titulo
+      atividade.descricao=dados.descricao
+      session.add(atividade)
+      session.commit()
+      session.refresh(atividade)
+      return atividade
+  
+  raise HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail=f'Atividade não localizado com id = {atividade_id}'
+  )
+
+@router.delete('/{atividade_id}')
+def atividade_delete(atividade_id: int):
+  session = Session(get_engine())
+
+  sttm = select(Atividade).where(Atividade.id == atividade_id)
+  atividade = session.exec(sttm).first()
+
+  if not atividade:
+    raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail='Atividade nao encontrada...')
+  
+  else:
+    session.delete(atividade)
+    session.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+

@@ -7,13 +7,25 @@ from sqlalchemy import table
 from sqlmodel import SQLModel, Field
 
 # Modelos Pydantic
-class Atividade(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+
+class PushAtividade(SQLModel):
     titulo: str = Field(min_length=1)
     descricao: str = Field(min_length=1)
-
-class Registro(SQLModel, table=True):
+    
+class Atividade(PushAtividade, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    tempo: int = Field(min_length=1)
-    classificacao: int = Field(max_length=1)
-    descricao: str = Field(min_length=1)
+    tempo_acumulado: int | None = Field(default=0)
+    media_classificacao: float | None = Field(default=0)
+       
+
+class PutRegistro(SQLModel):
+    tempo: int = Field(..., ge=1) 
+    classificacao: float = Field(..., ge=1, le=5)
+    descricao: str = Field(..., min_length=1)
+
+class PushRegistro(PutRegistro):    
+    id_atividade: int = Field(..., foreign_key="atividade.id")
+
+class Registro(PushRegistro, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+

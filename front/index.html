@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Atividades e Registros</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="loader" class="loader">Carregando...</div>
+    <div class="container">
+        <header>
+            <h1>Gestão de Atividades e Registros</h1>
+        </header>
+
+        <!-- Lista de Atividades -->
+        <section class="atividade-list">
+            <h2>Atividades</h2>
+            <div class="info-item">
+                <label for="atividadeList">Atividades Disponíveis:</label>
+                <div class="card-container" id="atividadeList">
+                    <!-- Os itens de atividade serão gerados aqui -->
+                </div>
+            </div>
+            <div class="buttons-section">
+                <button onclick="abrirModal('atividade')" class="action-btn">Adicionar Atividade</button>
+            </div>
+        </section>
+
+        <!-- Lista de Registros -->
+        <section class="registro-list">
+            <h2>Registros</h2>
+            <div class="info-item">
+                <label for="registroList">Registros Existentes:</label>
+                <div class="card-container" id="registroList">
+                    <!-- Os itens de registro serão gerados aqui -->
+                </div>
+            </div>
+            <div class="buttons-section">
+                <button onclick="abrirModal('registro')" class="action-btn">Adicionar Registro</button>
+            </div>
+        </section>
+
+        <!-- Modal para Atividade e Registro -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharModal()">&times;</span>
+
+                <!-- Formulário de criação de Atividade -->
+                <section class="form-section" id="formAtividade" style="display: none;">
+                    <h2>Criar Atividade</h2>
+                    <form id="atividadeForm">
+                        <input type="text" id="titulo" placeholder="Título da Atividade" required>
+                        <textarea id="descricao" placeholder="Descrição da Atividade" required></textarea>
+                        <button type="submit" class="btn-submit">Criar Atividade</button>
+                    </form>
+                </section>
+
+                <!-- Formulário de criação de Registro -->
+                <section class="registro-section" id="formRegistro" style="display: none;">
+                    <h2>Criar Registro</h2>
+                    <form id="registroForm">
+                        <select id="atividadeSelect">
+                            <option value="">Selecione uma Atividade</option>
+                        </select>
+                        <input type="number" id="tempo" placeholder="Tempo" required>
+                        <input type="number" id="classificacao" placeholder="Classificação (0-5)" min="0" max="5" required>
+                        <textarea id="descricao_registro" placeholder="Descrição do Registro" required></textarea>
+                        <button type="submit" class="btn-submit">Criar Registro</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

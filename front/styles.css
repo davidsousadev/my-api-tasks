@@ -1,0 +1,226 @@
+/* Definindo cores e fontes */
+:root {
+    --cor-fundo: #111111;
+    --cor-principal: #fbc02d;
+    --cor-texto: #fefefe;
+    --cor-borda: #444444;
+    --cor-secundaria: #ff5722;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #333333;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%;
+    max-width: 500px;
+}
+
+.close {
+    color: #fefefe;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: var(--cor-principal);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--cor-principal);
+    animation: fadeIn 1s ease-in-out;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: var(--cor-principal);
+}
+
+/* Estilo dos formulários */
+input, textarea, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 2px solid var(--cor-borda);
+    background-color: #333333;
+    color: var(--cor-texto);
+    font-size: 1rem;
+}
+
+textarea {
+    height: 100px;
+}
+
+button {
+    background-color: var(--cor-principal);
+    color: var(--cor-fundo);
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--cor-secundaria);
+}
+
+/* Cards para computadores */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #333333;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid var(--cor-borda);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background-color: var(--cor-secundaria);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: var(--cor-principal);
+    margin-bottom: 10px;
+}
+
+.card-body {
+    color: var(--cor-texto);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+
+
+/* Listas de Atividades e Registros para celular */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: #333333;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 2px solid var(--cor-borda);
+    list-style-type: none;
+    transition: transform 0.3s ease;
+}
+
+li:hover {
+    transform: scale(1.05);
+    background-color: var(--cor-secundaria);
+}
+
+/* Loader */
+.loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: var(--cor-principal);
+    z-index: 9999;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    input, textarea, select, button {
+        font-size: 0.9rem;
+    }
+
+    /* Exibição de itens como banner no celular */
+    .card-container {
+        display: block; /* Para celular, exibe os itens de forma vertical (como banners) */
+    }
+
+    .card {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
