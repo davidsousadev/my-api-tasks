@@ -2,3 +2,4 @@ Flask
 Flask-SQLAlchemy
 flask_cors
 SQLAlchemy
+flasgger
