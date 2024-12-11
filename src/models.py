@@ -5,6 +5,8 @@
 
 from sqlalchemy import table
 from sqlmodel import SQLModel, Field
+from datetime import date, datetime
+import datetime
 
 # Modelos Pydantic
 
@@ -25,9 +27,11 @@ class PutRegistro(SQLModel):
 
 class PushRegistro(PutRegistro):    
     id_atividade: int = Field(..., foreign_key="atividade.id")
+    
 
 class Registro(PushRegistro, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    created_at: str = Field(default=datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S'))
 
 class BaseUser(SQLModel):
   name: str
