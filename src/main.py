@@ -26,7 +26,7 @@ app.include_router(registros_router,
                     prefix='/registros', 
                     tags=["Registros"])
                     
-app.include_router(user_router,
+app.include_router(users_router,
                    tags=["Users"])
 
 # Criar DB
