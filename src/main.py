@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel
 from .atividades_controller import router as atividades_router
 from .registros_controller import router as registros_router
+from .users_controller import router as users_router
 from .database import get_engine
 
 app = FastAPI()
@@ -17,8 +18,16 @@ app.add_middleware(
 )
 
 
-app.include_router(atividades_router, prefix='/atividades', tags=["Atividades"])
-app.include_router(registros_router, prefix='/registros', tags=["Registros"])
+app.include_router(atividades_router, 
+                    prefix='/atividades',  
+                    tags=["Atividades"])
+
+app.include_router(registros_router, 
+                    prefix='/registros', 
+                    tags=["Registros"])
+                    
+app.include_router(user_router,
+                   tags=["Users"])
 
 # Criar DB
 SQLModel.metadata.create_all(get_engine())

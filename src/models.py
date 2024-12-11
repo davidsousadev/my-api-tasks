@@ -29,3 +29,22 @@ class PushRegistro(PutRegistro):
 class Registro(PushRegistro, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
+class BaseUser(SQLModel):
+  name: str
+  email: str
+  username: str
+  
+
+class User(BaseUser, table=True):
+  id: int = Field(default=None, primary_key=True)
+  password: str
+
+
+class SignUpUserRequest(BaseUser):
+  password: str
+  confirm_password: str
+
+
+class SignInUserRequest(SQLModel):
+  username: str
+  password: str
