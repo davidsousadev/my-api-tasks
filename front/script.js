@@ -127,6 +127,7 @@ function listarRegistros(id_atividade) {
                 <p><strong>Tempo:</strong> ${registro.tempo} min</p>
                 <p><strong>Classificação:</strong> ${registro.classificacao}</p>
                 <p><strong>Descrição:</strong> ${registro.descricao}</p>
+                <p><strong>Data:</strong> ${registro.created_at}</p>
                     <button onclick="editarRegistro(${registro.id})">Editar</button>
                     <button onclick="deletarRegistro(${registro.id})">Excluir</button>`;
                 registroList.appendChild(li);
